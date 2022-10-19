@@ -11,7 +11,9 @@ class BoxShadowGenerator {
     previewBox,
     rule,
     webkitRule,
-    mozRule
+    mozRule,
+    color,
+    colorRef
   ) {
     this.horizontal = horizontal;
     this.horizontalRef = horizontalRef;
@@ -25,6 +27,8 @@ class BoxShadowGenerator {
     this.rule = rule;
     this.webkitRule = webkitRule;
     this.mozRule = mozRule;
+    this.color = color;
+    this.colorRef = colorRef;
   }
 
   initialize() {
@@ -32,18 +36,20 @@ class BoxShadowGenerator {
     this.verticalRef.value = this.vertical.value;
     this.spreadRef.value = this.spread.value;
     this.blurRef.value = this.blur.value;
+    this.colorRef.value = this.color.value;
 
     this.applyRule();
     this.showRule();
   }
 
   applyRule() {
-    this.previewBox.style.boxShadow = `${this.horizontalRef.value}px ${this.verticalRef.value}px ${this.blurRef.value}px ${this.spreadRef.value}px #000000`;
+    this.previewBox.style.boxShadow = `${this.horizontalRef.value}px ${this.verticalRef.value}px ${this.blurRef.value}px ${this.spreadRef.value}px ${this.colorRef.value} `;
     this.currentRule = this.previewBox.style.boxShadow;
   }
 
   showRule() {
     this.rule.innerText = this.currentRule;
+    this.color.innerText;
     this.webkitRule.innerText = this.currentRule;
     this.mozRule.innerText = this.currentRule;
   }
@@ -62,6 +68,9 @@ class BoxShadowGenerator {
       case 'blur':
         this.blurRef.value = value;
         break;
+      case 'color':
+        this.colorRef.value = value;
+        break;
     }
 
     this.applyRule();
@@ -77,6 +86,8 @@ const blur = document.querySelector('#blur');
 const blurRef = document.querySelector('#blur-value');
 const spread = document.querySelector('#spread');
 const spreadRef = document.querySelector('#spread-value');
+const color = document.querySelector('#color');
+const colorRef = document.querySelector('#color-value');
 
 const previewBox = document.querySelector('#box');
 
@@ -96,7 +107,9 @@ const boxShadow = new BoxShadowGenerator(
   previewBox,
   rule,
   webkitRule,
-  mozRule
+  mozRule,
+  color,
+  colorRef
 );
 boxShadow.initialize();
 // Eventos
@@ -119,4 +132,9 @@ blur.addEventListener('input', (e) => {
   const value = e.target.value;
 
   boxShadow.updateValue('blur', value);
+});
+color.addEventListener('input', (e) => {
+  const value = e.target.value;
+
+  boxShadow.updateValue('color', value);
 });
